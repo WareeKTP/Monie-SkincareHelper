@@ -1,0 +1,36 @@
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #e0d3c2; border-radius: 8px; }
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50%       { transform: translateY(-8px) rotate(1deg); }
+}
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+@keyframes pop {
+  0%   { transform: scale(.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-4deg); }
+  50%      { transform: rotate(4deg); }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  35%      { transform: translateY(-9px) rotate(-8deg); }
+  65%      { transform: translateY(0) rotate(6deg); }
+}
+
+.pillar {
+  transition: transform .28s cubic-bezier(.34,1.56,.64,1), box-shadow .28s ease, border-color .28s ease;
+}
+.pillar:hover { transform: translateY(-12px); box-shadow: 0 22px 42px rgba(74,63,56,.17); }
+.picon { transition: transform .28s ease; }
+.pillar:hover .picon { animation: bounce .6s ease; }
+.pblob { transition: transform .5s ease, opacity .5s ease; }
+.pillar:hover .pblob { transform: scale(1.4); opacity: .3; }

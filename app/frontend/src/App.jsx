@@ -1,0 +1,23 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Nav from './components/Nav'
+import Home from './pages/Home'
+import Learn from './pages/Learn'
+import Plan from './pages/Plan'
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <div style={{ minHeight: '100vh', background: 'linear-gradient(160deg,#fde7d4,#f9e6ea 48%,#e9f0df)', color: '#43382f', fontFamily: "'Nunito',sans-serif", overflowX: 'hidden' }}>
+        <Nav />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/learn" element={<Learn />} />
+          <Route path="/plan" element={<Plan />} />
+        </Routes>
+        <footer style={{ textAlign: 'center', padding: '22px', borderTop: '1px solid #ece1d0', color: '#a8998b', fontSize: '13px' }}>
+          Monie · a friendly skincare routine planner · educational, not medical advice
+        </footer>
+      </div>
+    </BrowserRouter>
+  )
+}

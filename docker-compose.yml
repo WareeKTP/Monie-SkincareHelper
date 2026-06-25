@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-monie}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-monie}
+      POSTGRES_DB: ${POSTGRES_DB:-monie}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./app/db:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-monie}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./app/backend
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-monie}:${POSTGRES_PASSWORD:-monie}@db:5432/${POSTGRES_DB:-monie}
+      PORT: 4000
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3001:4000"
+
+  frontend:
+    build: ./app/frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
