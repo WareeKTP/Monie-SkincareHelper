@@ -1,121 +1,122 @@
-# Monie — Skincare Routine Helper
+# 🧴 Monie — Skincare Routine Helper
 
-A web app that teaches skincare beginners what each ingredient does, lets them build a morning and night routine by dragging products into slots, and flags ingredient clashes in real time through a friendly helper character.
-
----
-
-## Goal
-
-Most people fail at skincare not because they lack products, but because they don't know how to layer them or which actives conflict. Monie solves this in three steps:
-
-1. **Learn** — plain-English ingredient cards, the three pillars of healthy skin, and a daily routine order guide
-2. **Plan** — drag products from a personal shelf into AM and PM routine slots
-3. **Check** — an animated helper character detects ingredient clashes (e.g. retinol + vitamin C) and gives instant, friendly feedback
-
-No account required. On first visit an anonymous session is created and a default shelf is seeded so users can start immediately.
+> A web app that helps skincare beginners learn what each ingredient does, build a morning and night routine by dragging products into slots, and get real-time clash warnings from a friendly helper character.
 
 ---
 
-## Tech Stack
+## ✨ What It Does
+
+Most people fail at skincare not because they lack products — but because they don't know how to layer them or which actives conflict. Monie solves this in three steps:
+
+| Step | Feature | Description |
+|:---:|---|---|
+| 1️⃣ | **Learn** | Plain-English ingredient cards, the three pillars of healthy skin, and a daily routine order guide |
+| 2️⃣ | **Plan** | Drag products from a personal shelf into AM ☀️ and PM 🌙 routine slots |
+| 3️⃣ | **Check** | An animated helper character flags ingredient clashes (e.g. retinol + vitamin C) with instant feedback |
+
+No account required. On first visit, an anonymous session is created and a default shelf of 7 products is seeded automatically.
+
+---
+
+## 🛠️ Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Frontend | React 18, React Router v6, Vite |
-| Backend | Express.js, TypeScript |
-| Database | PostgreSQL 16 |
-| Auth | Anonymous JWT (24 h expiry, `jsonwebtoken`) |
-| Validation | Zod |
-| Deploy | Docker Compose |
+| 🎨 Frontend | React 18, React Router v6, Vite |
+| ⚙️ Backend | Express.js, TypeScript |
+| 🗄️ Database | PostgreSQL 16 |
+| 🔐 Auth | Anonymous JWT (24 h expiry, `jsonwebtoken`) |
+| ✅ Validation | Zod |
+| 🐳 Deploy | Docker Compose |
 
 ---
 
-## System Design
+## 🏗️ System Design
 
 ```
 Browser
   │
-  ├── GET / (static)  ──────────────► Frontend  :3000  (nginx serving Vite build)
+  ├── GET / (static)  ──────────────► 🎨 Frontend  :3000  (nginx · Vite build)
   │
-  └── /api/v1/*  ────────────────────► Backend   :3001  (Express.js / TypeScript)
+  └── /api/v1/*  ────────────────────► ⚙️  Backend   :3001  (Express.js / TypeScript)
                                             │
-                                            └── PostgreSQL :5432  (internal only)
+                                            └── 🗄️  PostgreSQL :5432  (internal only)
 ```
 
-### Services
+### 🐳 Services
 
-| Service | Image | External Port | Role |
+| Service | Image | Port | Role |
 |---|---|---|---|
-| `frontend` | nginx:alpine (Vite build) | `3000` | Serves the React SPA |
-| `backend` | node:20-alpine | `3001` | REST API, JWT auth, compat engine |
-| `db` | postgres:16-alpine | — (internal) | Persistent data store |
+| `frontend` | nginx:alpine | `3000` ← external | Serves the React SPA |
+| `backend` | node:20-alpine | `3001` ← external | REST API, JWT auth, compat engine |
+| `db` | postgres:16-alpine | internal only | Persistent data store |
 
-### API Routes (`/api/v1`)
+### 🔀 API Routes — `/api/v1`
 
 | Method | Path | Description |
 |---|---|---|
-| `POST` | `/session` | Issue anonymous JWT; seeds default shelf on first visit |
+| `POST` | `/session` | Issue anonymous JWT; seed default shelf on first visit |
 | `GET` | `/products` | List user's shelf |
 | `POST` | `/products` | Add a product |
 | `PATCH` | `/products/:id` | Update a product |
 | `DELETE` | `/products/:id` | Remove a product |
 | `GET` | `/routines` | Get saved AM + PM routine |
-| `PUT` | `/routines/:slot` | Replace a slot's ordered product list |
-| `POST` | `/routines/check` | Run server-side ingredient compatibility check |
+| `PUT` | `/routines/:slot` | Replace a slot's product list |
+| `POST` | `/routines/check` | Server-side ingredient compatibility check |
 | `GET` | `/ingredients` | Learn-page reference data (`?category=` filter) |
 | `GET` | `/health` | Liveness probe |
 
-### Ingredient Compatibility Engine
+### ⚗️ Ingredient Compatibility Engine
 
-Rules live as a constant in both `backend/src/compat.ts` (server) and `frontend/src/lib/compatibility.js` (client). Five ingredient key groups are detected by substring matching; three clash pairs trigger warnings at two severity levels (`caution` / `avoid`).
+Clash rules live in both `backend/src/compat.ts` and `frontend/src/lib/compatibility.js`. Five ingredient groups are matched by substring; three pairs produce warnings at two severity levels.
 
-| Clash | Severity |
+| ⚠️ Clash | Severity |
 |---|---|
-| Retinol + Vitamin C | Avoid |
-| Retinol + AHA/BHA | Avoid |
-| Vitamin C + AHA/BHA | Caution |
+| Retinol + Vitamin C | 🚫 Avoid |
+| Retinol + AHA/BHA | 🚫 Avoid |
+| Vitamin C + AHA/BHA | ⚠️ Caution |
 
 ---
 
-## Directory Topology
+## 📁 Directory Topology
 
 ```
 Monie-SkincareHelper/
 │
-├── app/
-│   ├── frontend/               # React SPA
+├── 📦 app/
+│   ├── 🎨 frontend/               # React SPA
 │   │   ├── src/
-│   │   │   ├── pages/          # Home.jsx · Learn.jsx · Plan.jsx
-│   │   │   ├── components/     # Nav · PillarCard · ProductCard
-│   │   │   │                   # DropZone · AddProductForm · HelperCharacter
-│   │   │   └── lib/            # api.js · compatibility.js · tagMeta.js
-│   │   │                       # ingredientData.js
+│   │   │   ├── pages/             # Home.jsx · Learn.jsx · Plan.jsx
+│   │   │   ├── components/        # Nav · PillarCard · ProductCard
+│   │   │   │                      # DropZone · AddProductForm · HelperCharacter
+│   │   │   └── lib/               # api.js · compatibility.js · tagMeta.js
+│   │   │                          # ingredientData.js
 │   │   ├── index.html
 │   │   ├── vite.config.js
 │   │   └── Dockerfile
 │   │
-│   ├── backend/                # Express.js API
+│   ├── ⚙️  backend/               # Express.js API
 │   │   └── src/
-│   │       ├── routes/         # session · products · routines · ingredients
-│   │       ├── index.ts        # App entry, middleware wiring
-│   │       ├── db.ts           # pg Pool
-│   │       ├── auth.ts         # JWT sign / verify middleware
-│   │       ├── compat.ts       # Ingredient clash engine
-│   │       └── schemas.ts      # Zod validators
+│   │       ├── routes/            # session · products · routines · ingredients
+│   │       ├── index.ts           # App entry, middleware wiring
+│   │       ├── db.ts              # pg Pool
+│   │       ├── auth.ts            # JWT sign / verify middleware
+│   │       ├── compat.ts          # Ingredient clash engine
+│   │       └── schemas.ts         # Zod validators
 │   │   └── Dockerfile
 │   │
-│   └── db/
-│       └── init.sql            # Schema + ingredient seed data (runs once on first up)
+│   └── 🗄️  db/
+│       └── init.sql               # Schema + seed data (runs once on first up)
 │
-├── docker-compose.yml          # Wires all three services
-├── .env.example                # Environment variable reference
-└── CLAUDE.md                   # Project instructions for Claude Code
+├── 🐳 docker-compose.yml          # Wires all three services
+└── 🔑 .env.example                # Environment variable reference
 ```
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
-**Prerequisites:** Docker Desktop
+**Prerequisites:** [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 ```bash
 # 1. Clone
@@ -130,18 +131,16 @@ cp .env.example .env
 docker compose up --build
 ```
 
-| URL | What |
+| URL | Description |
 |---|---|
-| `http://localhost:3000` | The app |
-| `http://localhost:3001/api/v1/health` | Backend health check |
-
-On first load the app creates an anonymous session and seeds a default shelf of 7 products so there is something to interact with immediately.
+| 🌐 `http://localhost:3000` | The app |
+| 🩺 `http://localhost:3001/api/v1/health` | Backend health check |
 
 ---
 
-## Notes
+## 📝 Notes
 
-- All API routes use the `/api/v1` prefix
-- JWT tokens expire after 24 hours; the client silently re-issues using the stored `userId`
-- The PostgreSQL data volume (`pgdata`) persists across restarts; `docker compose down -v` clears it
-- `init.sql` only runs on an empty data volume — schema changes require `docker compose down -v` locally or a migration tool in production
+- 🔗 All API routes use the `/api/v1` prefix
+- ⏰ JWT tokens expire after 24 hours; the client silently re-issues using the stored `userId`
+- 💾 The PostgreSQL volume (`pgdata`) persists across restarts — run `docker compose down -v` to wipe it
+- 🗃️ `init.sql` only runs on an empty volume — schema changes require `docker compose down -v` locally or a migration tool in production
