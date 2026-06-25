@@ -3,6 +3,7 @@ import Nav from './components/Nav'
 import Home from './pages/Home'
 import Learn from './pages/Learn'
 import Plan from './pages/Plan'
+import Admin from './pages/Admin'
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/learn" element={<Learn />} />
           <Route path="/plan" element={<Plan />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
         <footer style={{ textAlign: 'center', padding: '22px', borderTop: '1px solid #ece1d0', color: '#a8998b', fontSize: '13px' }}>
           Monie · a friendly skincare routine planner · educational, not medical advice
