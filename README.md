@@ -86,7 +86,7 @@ Monie-SkincareHelper/
 ├── 📦 app/
 │   ├── 🎨 frontend/               # React SPA
 │   │   ├── src/
-│   │   │   ├── pages/             # Home.jsx · Learn.jsx · Plan.jsx
+│   │   │   ├── pages/             # Home.jsx · Learn.jsx · Plan.jsx · Admin.jsx
 │   │   │   ├── components/        # Nav · PillarCard · ProductCard
 │   │   │   │                      # DropZone · AddProductForm · HelperCharacter
 │   │   │   └── lib/               # api.js · compatibility.js · tagMeta.js
@@ -135,48 +135,19 @@ docker compose up --build
 | URL | Description |
 |---|---|
 | 🌐 `http://localhost:3000` | The app |
+| 🛠️ `http://localhost:3000/admin` | Hidden admin page |
 | 🩺 `http://localhost:3001/api/v1/health` | Backend health check |
 
 ---
 
-## 🗃️ Database Management
+## 🛠️ Admin Page
 
-Both commands run inside the backend container so they can reach the internal PostgreSQL instance.
+`/admin` is a hidden page — not linked from the nav. Access it directly by URL.
 
-### ➕ Add an Ingredient
-
-Ingredients are global reference data shown on the Learn page.
-
-```bash
-docker compose exec backend npm run add:ingredient -- \
-  --id=bak \
-  --name="Bakuchiol" \
-  --emoji="🌸" \
-  --tag=renew \
-  --description="A plant-based retinol alternative. Gentler on sensitive skin." \
-  --best_time="PM" \
-  --time_icon="🌙" \
-  --tip="Safe to pair with vitamin C"
-```
-
-> Re-running with the same `--id` updates the existing row instead of erroring.
-
-### ➕ Add a Product
-
-Products are user-scoped. Get the user ID from the browser console: `localStorage.getItem('monie_user_id')`.
-
-```bash
-docker compose exec backend npm run add:product -- \
-  --user-id=<uuid> \
-  --name="Bakuchiol Serum" \
-  --tag=Serum \
-  --time=pm \
-  --ingredients="Bakuchiol,Squalane"
-```
-
-**Valid `--tag` values:** `Cleanser` · `Toner` · `Essence` · `Serum` · `Treatment` · `Exfoliant` · `Eye Cream` · `Moisturizer` · `Sunscreen` · `Sleeping Mask`
-
-**Valid `--time` values:** `am` · `pm` · `both`
+| Form | What it does |
+|---|---|
+| ⚗️ Add Ingredient | Adds a new card to the Learn page. Re-submitting the same ID updates the existing entry. |
+| 📦 Add Product | Adds a product to the current session's shelf. Visible immediately on the Plan page. |
 
 ---
 
