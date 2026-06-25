@@ -98,6 +98,7 @@ Monie-SkincareHelper/
 │   ├── ⚙️  backend/               # Express.js API
 │   │   └── src/
 │   │       ├── routes/            # session · products · routines · ingredients
+│   │       ├── scripts/           # add-ingredient.ts · add-product.ts
 │   │       ├── index.ts           # App entry, middleware wiring
 │   │       ├── db.ts              # pg Pool
 │   │       ├── auth.ts            # JWT sign / verify middleware
@@ -135,6 +136,47 @@ docker compose up --build
 |---|---|
 | 🌐 `http://localhost:3000` | The app |
 | 🩺 `http://localhost:3001/api/v1/health` | Backend health check |
+
+---
+
+## 🗃️ Database Management
+
+Both commands run inside the backend container so they can reach the internal PostgreSQL instance.
+
+### ➕ Add an Ingredient
+
+Ingredients are global reference data shown on the Learn page.
+
+```bash
+docker compose exec backend npm run add:ingredient -- \
+  --id=bak \
+  --name="Bakuchiol" \
+  --emoji="🌸" \
+  --tag=renew \
+  --description="A plant-based retinol alternative. Gentler on sensitive skin." \
+  --best_time="PM" \
+  --time_icon="🌙" \
+  --tip="Safe to pair with vitamin C"
+```
+
+> Re-running with the same `--id` updates the existing row instead of erroring.
+
+### ➕ Add a Product
+
+Products are user-scoped. Get the user ID from the browser console: `localStorage.getItem('monie_user_id')`.
+
+```bash
+docker compose exec backend npm run add:product -- \
+  --user-id=<uuid> \
+  --name="Bakuchiol Serum" \
+  --tag=Serum \
+  --time=pm \
+  --ingredients="Bakuchiol,Squalane"
+```
+
+**Valid `--tag` values:** `Cleanser` · `Toner` · `Essence` · `Serum` · `Treatment` · `Exfoliant` · `Eye Cream` · `Moisturizer` · `Sunscreen` · `Sleeping Mask`
+
+**Valid `--time` values:** `am` · `pm` · `both`
 
 ---
 
