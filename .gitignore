@@ -26,6 +26,9 @@ yarn-error.log*
 # ── Docker ────────────────────────────────────────────────────────────────────
 docker-data/
 
+# ── Design & planning docs ────────────────────────────────────────────────────
+design/
+
 # ── OS ────────────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
@@ -38,5 +41,7 @@ Desktop.ini
 *.user
 
 # ── Claude Code & skill tooling (machine-local state) ────────────────────────
+.agents/
+.claude/skills/
 .claude/settings.local.json
 .impeccable/config.local.json

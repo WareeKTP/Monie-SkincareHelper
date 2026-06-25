@@ -88,7 +88,7 @@ Monie-SkincareHelper/
 │   │   │   ├── components/     # Nav · PillarCard · ProductCard
 │   │   │   │                   # DropZone · AddProductForm · HelperCharacter
 │   │   │   └── lib/            # api.js · compatibility.js · tagMeta.js
-│   │   │                       # ingredientData.js · seedProducts.js (fallback)
+│   │   │                       # ingredientData.js
 │   │   ├── index.html
 │   │   ├── vite.config.js
 │   │   └── Dockerfile
@@ -106,8 +106,6 @@ Monie-SkincareHelper/
 │   └── db/
 │       └── init.sql            # Schema + ingredient seed data (runs once on first up)
 │
-├── design/                     # Product spec, planning docs, design files
-│
 ├── docker-compose.yml          # Wires all three services
 ├── .env.example                # Environment variable reference
 └── CLAUDE.md                   # Project instructions for Claude Code
@@ -121,7 +119,7 @@ Monie-SkincareHelper/
 
 ```bash
 # 1. Clone
-git clone <repo-url>
+git clone https://github.com/WareeKTP/Monie-SkincareHelper.git
 cd Monie-SkincareHelper
 
 # 2. Set environment variables
