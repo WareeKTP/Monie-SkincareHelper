@@ -6,9 +6,13 @@
 
 ## 📸 Preview
 
-<img src="preview-img/Home page.png" width="49%"> <img src="preview-img/Plan page.png" width="49%">
-<img src="preview-img/Learn page top.png" width="49%"> <img src="preview-img/Learn page bot.png" width="49%">
-
+<img src="preview-img/Home page.png" width="49%">
+---
+<img src="preview-img/Learn page top.png" width="49%">
+---
+<img src="preview-img/Learn page bot.png" width="49%">
+---
+<img src="preview-img/Plan page.png" width="49%">
 ---
 
 ## ✨ What It Does
