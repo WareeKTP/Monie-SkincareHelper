@@ -33,15 +33,15 @@ No account required. On first visit, an anonymous session is created and a defau
 
 ## 📸 Preview
 
-# Home page - 
+### Home page - Project introduction
 <img src="preview-img/Home page.png" width="49%">
 
-# Learn page - Learn about skincare and routine step
+### Learn page - Learn about skincare and routine step
 <img src="preview-img/Learn page top.png" width="49%">
 
 <img src="preview-img/Learn page bot.png" width="49%">
 
-# Plan page - Plan your own skincare routine
+### Plan page - Plan your own skincare routine
 <img src="preview-img/Plan page.png" width="49%">
 ---
 
