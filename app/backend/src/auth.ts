@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-in-prod'
+// Presence is enforced at startup in index.ts; no insecure dev fallback.
+const JWT_SECRET = process.env.JWT_SECRET as string
 
 export function signToken(userId: string): string {
   return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '24h' })

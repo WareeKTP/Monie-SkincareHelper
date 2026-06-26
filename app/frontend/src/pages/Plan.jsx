@@ -15,6 +15,7 @@ export default function Plan() {
   const [formLoading, setFormLoading] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [pickerFor, setPickerFor] = useState(null)
   const draggingId = useRef(null)
 
   useEffect(() => {
@@ -34,7 +35,13 @@ export default function Plan() {
     load()
   }, [])
 
-  const compat = checkCompatibility([...amZone, ...pmZone])
+  const amCompat = checkCompatibility(amZone)
+  const pmCompat = checkCompatibility(pmZone)
+  const MOOD_RANK = { sad: 3, caution: 2, happy: 1, empty: 0 }
+  const compat = {
+    clashes: [...amCompat.clashes, ...pmCompat.clashes],
+    mood: MOOD_RANK[amCompat.mood] >= MOOD_RANK[pmCompat.mood] ? amCompat.mood : pmCompat.mood,
+  }
 
   async function handleDrop(slot) {
     const id = draggingId.current
@@ -81,6 +88,21 @@ export default function Plan() {
       alert('Failed to add product: ' + e.message)
     } finally {
       setFormLoading(false)
+    }
+  }
+
+  async function tapAddToZone(product, slot) {
+    const isAm = slot === 'am'
+    const zone = isAm ? amZone : pmZone
+    const setZone = isAm ? setAmZone : setPmZone
+    setPickerFor(null)
+    if (zone.some(p => p.id === product.id)) return
+    const next = [...zone, product]
+    setZone(next)
+    try {
+      await setRoutineSlot(slot, next.map(p => p.id))
+    } catch {
+      setZone(zone)
     }
   }
 
@@ -132,12 +154,13 @@ export default function Plan() {
 
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
           {shelf.map(p => (
-            <ProductCard
-              key={p.id}
-              product={p}
-              onDragStart={() => { draggingId.current = p.id }}
-              onDragEnd={() => { draggingId.current = null }}
-            />
+            <div key={p.id} onClick={() => setPickerFor(p)} style={{ cursor: 'pointer' }}>
+              <ProductCard
+                product={p}
+                onDragStart={() => { draggingId.current = p.id }}
+                onDragEnd={() => { draggingId.current = null }}
+              />
+            </div>
           ))}
           {shelf.length === 0 && (
             <p style={{ color: '#a8998b', fontSize: '14px', padding: '16px 0' }}>Your shelf is empty — add a product to get started.</p>
@@ -173,6 +196,20 @@ export default function Plan() {
           pmCount={pmZone.length}
         />
       </div>
+
+      {pickerFor && (
+        <div onClick={() => setPickerFor(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(67,56,47,.4)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+          <div onClick={e => e.stopPropagation()} style={{ background: '#fff', borderRadius: '20px', padding: '24px 28px', boxShadow: '0 16px 40px rgba(74,63,56,.18)', maxWidth: '300px', width: '100%', textAlign: 'center' }}>
+            <p style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 700, fontSize: '16px', color: '#43382f', margin: '0 0 4px' }}>{pickerFor.name}</p>
+            <p style={{ fontSize: '13px', color: '#8a7d72', margin: '0 0 18px' }}>Add to which routine?</p>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+              <button onClick={() => tapAddToZone(pickerFor, 'am')} style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 700, fontSize: '14px', color: '#d99633', background: '#fbf4e8', border: '2px solid #ead9bf', borderRadius: '12px', padding: '10px 20px', cursor: 'pointer' }}>☀️ Morning</button>
+              <button onClick={() => tapAddToZone(pickerFor, 'pm')} style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 700, fontSize: '14px', color: '#9b7bc4', background: '#f6f1f8', border: '2px solid #ddd0e6', borderRadius: '12px', padding: '10px 20px', cursor: 'pointer' }}>🌙 Night</button>
+            </div>
+            <button onClick={() => setPickerFor(null)} style={{ marginTop: '14px', display: 'block', width: '100%', fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: '13px', color: '#9a8b7d', background: 'none', border: 'none', cursor: 'pointer' }}>Cancel</button>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

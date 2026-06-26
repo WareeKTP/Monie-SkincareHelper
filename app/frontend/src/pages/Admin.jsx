@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createIngredient, createProduct, initSession } from '../lib/api'
 
 const TAGS      = ['Cleanser','Toner','Essence','Serum','Treatment','Exfoliant','Eye Cream','Moisturizer','Sunscreen','Sleeping Mask']
@@ -144,7 +144,6 @@ function ProductForm() {
     setLoading(true)
     setStatus(null)
     try {
-      await initSession()
       const ingredients = form.ingredients.split(',').map(s => s.trim()).filter(Boolean)
       await createProduct({ name: form.name, tag: form.tag, time: form.time, ingredients })
       setStatus({ ok: true, msg: `"${form.name}" added to your shelf.` })
@@ -190,6 +189,8 @@ function ProductForm() {
 }
 
 export default function Admin() {
+  useEffect(() => { initSession() }, [])
+
   return (
     <main style={{ maxWidth: '740px', margin: '0 auto', padding: '40px 20px 60px' }}>
       <div style={{ marginBottom: '32px' }}>

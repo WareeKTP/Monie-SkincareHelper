@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import ProductCard from './ProductCard'
 
 export default function DropZone({ slot, items, onDrop, onRemove }) {
   const [active, setActive] = useState(false)
+  const counter = useRef(0)
   const isAm = slot === 'am'
 
   const bg     = isAm ? '#fbf4e8' : '#f6f1f8'
@@ -13,9 +14,9 @@ export default function DropZone({ slot, items, onDrop, onRemove }) {
   return (
     <div
       onDragOver={e => e.preventDefault()}
-      onDragEnter={() => setActive(true)}
-      onDragLeave={() => setActive(false)}
-      onDrop={e => { e.preventDefault(); setActive(false); onDrop(e) }}
+      onDragEnter={() => { counter.current++; setActive(true) }}
+      onDragLeave={() => { if (--counter.current === 0) setActive(false) }}
+      onDrop={e => { e.preventDefault(); counter.current = 0; setActive(false); onDrop(e) }}
       style={{
         minHeight: '96px',
         borderRadius: '16px',

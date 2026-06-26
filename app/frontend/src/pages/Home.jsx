@@ -16,9 +16,9 @@ export default function Home() {
       <div style={{ position: 'absolute', top: '30px', left: '6%', width: '140px', height: '140px', borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%,#f7d9c4,#eeb59a)', opacity: '.5', animation: 'floaty 7s ease-in-out infinite', pointerEvents: 'none' }} />
       <div style={{ position: 'absolute', top: '120px', right: '4%', width: '96px', height: '96px', borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%,#d9e3bf,#b6c596)', opacity: '.55', animation: 'floaty 9s ease-in-out infinite', pointerEvents: 'none' }} />
 
-      {/* Floating ingredient cards */}
+      {/* Floating ingredient cards — hidden on narrow viewports via .floating-card */}
       {floatingCards.map(c => (
-        <div key={c.label} style={{ position: 'absolute', width: '108px', background: '#fff', borderRadius: '18px', padding: '12px', textAlign: 'center', boxShadow: '0 10px 24px rgba(74,63,56,.12)', animation: `floaty ${c.style.animationDuration} ease-in-out infinite ${c.style.animationDelay || '0s'}`, pointerEvents: 'none', ...c.style }}>
+        <div key={c.label} className="floating-card" style={{ position: 'absolute', width: '108px', background: '#fff', borderRadius: '18px', padding: '12px', textAlign: 'center', boxShadow: '0 10px 24px rgba(74,63,56,.12)', animation: `floaty ${c.style.animationDuration} ease-in-out infinite ${c.style.animationDelay || '0s'}`, pointerEvents: 'none', ...c.style }}>
           <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: '#f8ecd4', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', margin: '0 auto' }}>{c.emoji}</div>
           <div style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 600, fontSize: '13px', marginTop: '7px' }}>{c.label}</div>
         </div>

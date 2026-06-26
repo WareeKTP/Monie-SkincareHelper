@@ -36,7 +36,7 @@ export default function ProductCard({ product, onDragStart, onDragEnd, onRemove,
             <div style={{ fontSize: '11.5px', color: '#8a7d72' }}>{product.tag} · {(product.ingredients || []).join(', ')}</div>
           </div>
           {onRemove && (
-            <button onClick={onRemove} style={{ width: '26px', height: '26px', borderRadius: '50%', border: 'none', background: 'rgba(255,255,255,.7)', color: '#9a8b7d', fontSize: '16px', lineHeight: 1, cursor: 'pointer', flexShrink: 0 }}>×</button>
+            <button onClick={onRemove} aria-label={`Remove ${product.name}`} style={{ width: '26px', height: '26px', borderRadius: '50%', border: 'none', background: 'rgba(255,255,255,.7)', color: '#9a8b7d', fontSize: '16px', lineHeight: 1, cursor: 'pointer', flexShrink: 0 }}>×</button>
           )}
         </>
       ) : (

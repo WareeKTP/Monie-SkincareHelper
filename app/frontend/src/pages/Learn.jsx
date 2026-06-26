@@ -1,6 +1,15 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PillarCard from '../components/PillarCard'
-import { ingredients, FILTERS, filterMeta } from '../lib/ingredientData'
+import { FILTERS, filterMeta } from '../lib/ingredientData'
+import { getIngredients } from '../lib/api'
+
+const TAG_COLORS = {
+  brighten: { color: '#e07407', soft: '#fef3e6' },
+  hydrate:  { color: '#2b7fd4', soft: '#e6effb' },
+  renew:    { color: '#8246c4', soft: '#f0e7fb' },
+  calm:     { color: '#5f9c1f', soft: '#eef6e0' },
+  protect:  { color: '#d99403', soft: '#fdf0cf' },
+}
 
 const pillars = [
   { icon: '🛡️', num: '01', title: 'Protection',  color: '#2b7fd4', softColor: '#6aa9ec', borderColor: '#d8e8fb', shadowColor: '#2b7fd414', chips: ['☀️ SPF 50', '🍊 Vitamin C', '🫧 Moisturizer'], desc: 'Shield skin from sun, pollution and moisture loss — the daily armour that stops damage before it starts.' },
@@ -43,7 +52,23 @@ function RoutineStep({ step, dividerColor }) {
 
 export default function Learn() {
   const [filter, setFilter] = useState('all')
-  const visible = filter === 'all' ? ingredients : ingredients.filter(i => i.tag === filter)
+  const [items, setItems] = useState([])
+  const [loadingIng, setLoadingIng] = useState(true)
+
+  useEffect(() => {
+    setLoadingIng(true)
+    getIngredients(filter)
+      .then(rows => setItems(rows.map(r => ({
+        ...r,
+        desc:     r.description,
+        bestTime: r.best_time,
+        timeIcon: r.time_icon,
+        ...(TAG_COLORS[r.tag] || { color: '#8a7d72', soft: '#f5f0eb' }),
+      }))))
+      .finally(() => setLoadingIng(false))
+  }, [filter])
+
+  const visible = items
 
   return (
     <section style={{ maxWidth: '1080px', margin: '0 auto', padding: '40px 24px 80px' }}>
@@ -106,6 +131,7 @@ export default function Learn() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(248px,1fr))', gap: '18px' }}>
+        {loadingIng && <p style={{ color: '#a8998b', fontSize: '14px', gridColumn: '1/-1', textAlign: 'center', padding: '24px 0' }}>Loading…</p>}
         {visible.map(ing => (
           <div key={ing.id} style={{ background: '#fff', border: '1px solid #f0e2cf', borderRadius: '20px', padding: '20px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

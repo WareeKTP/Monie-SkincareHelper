@@ -10,3 +10,14 @@ export const ProductSchema = z.object({
 export const SlotSchema = z.object({
   productIds: z.array(z.string().uuid()),
 })
+
+export const IngredientSchema = z.object({
+  id:          z.string().min(1).max(32).regex(/^[a-z0-9_-]+$/),
+  name:        z.string().min(1).max(100),
+  emoji:       z.string().min(1).max(10),
+  tag:         z.enum(['brighten','hydrate','renew','calm','protect']),
+  description: z.string().min(1).max(500),
+  best_time:   z.enum(['AM','PM','AM & PM']),
+  time_icon:   z.string().min(1).max(10),
+  tip:         z.string().min(1).max(200),
+})

@@ -1,6 +1,13 @@
 # 🧴 Monie — Skincare Routine Helper
 
-> A web app that helps skincare beginners learn what each ingredient does, build a morning and night routine by dragging products into slots, and get real-time clash warnings from a friendly helper character.
+> A web app that helps skincare beginners learn what each ingredient does, build a morning and night routine, and get real-time clash warnings from a friendly helper character.
+
+---
+
+## 📸 Preview
+
+<img src="preview-img/Home page.png" width="49%"> <img src="preview-img/Plan page.png" width="49%">
+<img src="preview-img/Learn page top.png" width="49%"> <img src="preview-img/Learn page bot.png" width="49%">
 
 ---
 
@@ -11,7 +18,7 @@ Most people fail at skincare not because they lack products — but because they
 | Step | Feature | Description |
 |:---:|---|---|
 | 1️⃣ | **Learn** | Plain-English ingredient cards, the three pillars of healthy skin, and a daily routine order guide |
-| 2️⃣ | **Plan** | Drag products from a personal shelf into AM ☀️ and PM 🌙 routine slots |
+| 2️⃣ | **Plan** | Drag (or tap) products from a personal shelf into AM ☀️ and PM 🌙 routine slots |
 | 3️⃣ | **Check** | An animated helper character flags ingredient clashes (e.g. retinol + vitamin C) with instant feedback |
 
 No account required. On first visit, an anonymous session is created and a default shelf of 7 products is seeded automatically.
@@ -36,19 +43,23 @@ No account required. On first visit, an anonymous session is created and a defau
 ```
 Browser
   │
-  ├── GET / (static)  ──────────────► 🎨 Frontend  :3000  (nginx · Vite build)
-  │
-  └── /api/v1/*  ────────────────────► ⚙️  Backend   :3001  (Express.js / TypeScript)
-                                            │
-                                            └── 🗄️  PostgreSQL :5432  (internal only)
+  └── :3000 ──────────────► 🎨 Frontend  (nginx-unprivileged · Vite build)
+                                 │
+                                 ├── GET /          → serves React SPA
+                                 │
+                                 └── /api/v1/*  ──► ⚙️  Backend  :4000  (Express.js / TypeScript)
+                                                         │
+                                                         └── 🗄️  PostgreSQL :5432  (internal only)
 ```
+
+nginx reverse-proxies all `/api/` traffic to the backend — the backend port is never exposed publicly.
 
 ### 🐳 Services
 
 | Service | Image | Port | Role |
 |---|---|---|---|
-| `frontend` | nginx:alpine | `3000` ← external | Serves the React SPA |
-| `backend` | node:20-alpine | `3001` ← external | REST API, JWT auth, compat engine |
+| `frontend` | nginxinc/nginx-unprivileged:alpine | `3000` ← external | Serves React SPA + proxies `/api/` |
+| `backend` | node:20-alpine | internal only | REST API, JWT auth, compat engine |
 | `db` | postgres:16-alpine | internal only | Persistent data store |
 
 ### 🔀 API Routes — `/api/v1`
@@ -91,6 +102,7 @@ Monie-SkincareHelper/
 │   │   │   │                      # DropZone · AddProductForm · HelperCharacter
 │   │   │   └── lib/               # api.js · compatibility.js · tagMeta.js
 │   │   │                          # ingredientData.js
+│   │   ├── nginx.conf
 │   │   ├── index.html
 │   │   ├── vite.config.js
 │   │   └── Dockerfile
@@ -109,6 +121,7 @@ Monie-SkincareHelper/
 │   └── 🗄️  db/
 │       └── init.sql               # Schema + seed data (runs once on first up)
 │
+├── 🖼️  preview-img/               # App screenshots
 ├── 🐳 docker-compose.yml          # Wires all three services
 └── 🔑 .env.example                # Environment variable reference
 ```
@@ -136,7 +149,7 @@ docker compose up --build
 |---|---|
 | 🌐 `http://localhost:3000` | The app |
 | 🛠️ `http://localhost:3000/admin` | Hidden admin page |
-| 🩺 `http://localhost:3001/api/v1/health` | Backend health check |
+| 🩺 `http://localhost:3000/api/v1/health` | Backend health check |
 
 ---
 
