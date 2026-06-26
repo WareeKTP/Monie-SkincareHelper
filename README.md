@@ -4,17 +4,6 @@
 
 ---
 
-## 📸 Preview
-
-<img src="preview-img/Home page.png" width="49%">
----
-<img src="preview-img/Learn page top.png" width="49%">
----
-<img src="preview-img/Learn page bot.png" width="49%">
----
-<img src="preview-img/Plan page.png" width="49%">
----
-
 ## ✨ What It Does
 
 Most people fail at skincare not because they lack products — but because they don't know how to layer them or which actives conflict. Monie solves this in three steps:
@@ -41,6 +30,21 @@ No account required. On first visit, an anonymous session is created and a defau
 | 🐳 Deploy | Docker Compose |
 
 ---
+
+## 📸 Preview
+
+# Home page - 
+<img src="preview-img/Home page.png" width="49%">
+
+# Learn page - Learn about skincare and routine step
+<img src="preview-img/Learn page top.png" width="49%">
+
+<img src="preview-img/Learn page bot.png" width="49%">
+
+# Plan page - Plan your own skincare routine
+<img src="preview-img/Plan page.png" width="49%">
+---
+
 
 ## 🏗️ System Design
 
