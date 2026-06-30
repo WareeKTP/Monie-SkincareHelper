@@ -1,20 +1,25 @@
 # 🧴 Monie — Skincare Routine Helper
 
-> A web app that helps skincare beginners learn what each ingredient does, build a morning and night routine, and get real-time clash warnings from a friendly helper character.
+> Monie เป็นเว็บแอปที่ช่วยมือใหม่ด้านสกินแคร์ให้เข้าใจว่าส่วนผสมแต่ละชนิดที่อยู่ในสกินแคร์ของเราทำหน้าที่อะไร นอกจากนี้ยังสามารถช่วยวางแผนรูทีนสำหรับสกินแคร์ว่าควรจะใช้ตัวไหนบ้างทั้งในตอนกลางวัน (Day) และกลางคืน และยังคอยเตือนแบบเรียลไทม์เมื่อใช้ส่วนผสมที่ไม่ควรใช้ด้วยกันหรือไม่ควรใช้ ณ ช่วงเวลานั้น
+> ป.ล. ชื่อ Monie ได้รับแรงบันดาลใจมาจากน้องโมเน่ที่น่ารัก และสดใส
 
 ---
 
-## ✨ What It Does
+## ✨ ความเป็นมา และการแก้ปัญหา
 
-Most people fail at skincare not because they lack products — but because they don't know how to layer them or which actives conflict. Monie solves this in three steps:
+ปัญหาในมือใหม่ส่วนใหญ่ที่เริ่มสนใจในการใช้สกินแคร์มักจะพบ
+1. ไม่รู้ว่าปัญหาที่ตนเป็น ควรจะใช้ผลิตภัณฑ์หรือส่วนผสมอะไร ในการดูแลรักษา
+2. ไม่รู้ว่าส่วนผสมบางชนิดนั้นไม่สามารถใช้ร่วมกันได้ เพราะอาจก่อให้เกิดผลเสียมากกว่าเมื่อใช้ร่วมกัน
+3. ไม่รู้ลำดับการใช้งานของผลิตภัณฑ์ที่จะควรจะเป็น หรือควรใช้เมื่อไหร่ เพื่อให้เกิดประสิทธิภาพสูงสุด
 
+ดังนั้น Monie จึงเข้ามามีบทบาทช่วยแก้ไขปัญหาดังกล่าวข้างต้น ผ่านฟีเจอร์ในการทำงาน 3 อย่าง ดังงี้ 
 | Step | Feature | Description |
 |:---:|---|---|
-| 1️⃣ | **Learn** | Plain-English ingredient cards, the three pillars of healthy skin, and a daily routine order guide |
-| 2️⃣ | **Plan** | Drag (or tap) products from a personal shelf into AM ☀️ and PM 🌙 routine slots |
-| 3️⃣ | **Check** | An animated helper character flags ingredient clashes (e.g. retinol + vitamin C) with instant feedback |
+| 1️⃣ | **Learn** | แฟลชการ์ดอธิบายส่วนผสมด้วยภาษาที่เข้าใจง่าย, หลัก 3 เสาของผิวสุขภาพดี และคู่มือลำดับการทาสกินแคร์ประจำวัน |
+| 2️⃣ | **Plan** | วางแผนสกินแคร์รูทีนของตนเองด้วยการ แตะหรือลาก ผลิตภัณฑ์ที่มีไปใส่ในช่อง กลางวัน ☀️ และกลางคืน 🌙 |
+| 3️⃣ | **Check** | ผู้ช่วยที่จะคอยเตือนเมื่อส่วนผสมที่เลือกในรูทีนไม่สอดคล้องหรือทำให้ประสิทธิภาพลดลงเมื่อใช้ร่วมกัน (เช่น เรตินอล + วิตามินซี) |
 
-No account required. On first visit, an anonymous session is created and a default shelf of 7 products is seeded automatically.
+(ไม่ต้องสมัครสมาชิกเมื่อเข้าใช้งานครั้งแรก ระบบจะสร้าง session แบบไม่ระบุตัวตนให้อัตโนมัติ โดยมีผลิตภัณฑ์เริ่มต้น 7 ชิ้น และผู้ใช้สามารถเพิ่มเองได้ในภายหลัง)
 
 ---
 
@@ -24,7 +29,7 @@ No account required. On first visit, an anonymous session is created and a defau
 |---|---|
 | 🎨 Frontend | React 18, React Router v6, Vite |
 | ⚙️ Backend | Express.js, TypeScript |
-| 🗄️ Database | PostgreSQL 16 |
+| 🗄️ Database | PostgreSQL |
 | 🔐 Auth | Anonymous JWT (24 h expiry, `jsonwebtoken`) |
 | ✅ Validation | Zod |
 | 🐳 Deploy | Docker Compose |
